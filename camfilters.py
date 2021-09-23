@@ -1,14 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Sep 22 21:13:06 2021
-
-@author: spillai
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
 Created on Wed Sep 22 15:15:13 2021
 
 @author: spillai
@@ -72,15 +64,9 @@ while cap.isOpened():
     combined=np.concatenate((row1, row2, row3), axis=0)
     h,w,_=image.shape
 
-    addtext(combined,"filter1", (25,100))
-    addtext(combined,"filter2", (w+25,100))
-    addtext(combined,"filter3", (2*w+25,100))
-    addtext(combined,"filter4", (25,100+h))
-    addtext(combined,"filter5", (w+25,100+h))
-    addtext(combined,"filter6", (2*w+25,100+h))
-    addtext(combined,"filter7", (25,100+2*h))
-    addtext(combined,"filter8", (w+25,100+2*h))
-    addtext(combined,"filter9", (2*w+25,100+2*h))
+    for i in range(3):
+        for j in range(3):
+            addtext(combined,f"filter {i} {j}", (25+i*w,100+j*h))
 
     if not success:
       print("Ignoring empty camera frame.")
@@ -91,8 +77,14 @@ while cap.isOpened():
 
     cv2.imshow('GRID', combined)
     #cv2.destroyAllWindows()
-    if cv2.waitKey(5) & 0xFF == 27:
-      break
+    # if cv2.waitKey(5) & 0xFF == 27:
+    #   break
+    while(True):
+        k = cv2.waitKey(33)
+        if k == -1:  # if no key was pressed, -1 is returned
+            continue
+        else:
+            break
+
 cap.release()
-
-
+cv2.destroyWindow('GRID')
